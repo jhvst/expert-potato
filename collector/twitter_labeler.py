@@ -1,4 +1,3 @@
-import cPickle as pickle
 import ujson as json
 
 def get_label(tweet):
@@ -25,8 +24,8 @@ def main():
             json.dump(labels, f)
 
     # load tweets
-    with open('tweet_results.pkl') as f:
-        tweets = pickle.load(f)
+    with open('tweet_results.json') as f:
+        tweets = json.load(f)
 
     # find tweets without labels
     for tweet in tweets:

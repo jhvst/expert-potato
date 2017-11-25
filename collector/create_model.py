@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import keras
-import cPickle as pickle
+#import keras
+import pickle
 import ujson as json
 import re
+import numpy as np
+from sklearn.externals import joblib
 
 def get_data():
     # return list of (string, label)
     
     results = []
 
-    with open('newsapi_results.pkl') as f:
-        newsapi_results = pickle.load(f)
+    with open('newsapi_results.json') as f:
+        newsapi_results = json.load(f)
     with open('newsapi_labels.json') as f:
         newsapi_labels = json.load(f)
 
@@ -23,8 +25,8 @@ def get_data():
             str((article['description'] or '').encode('utf-8'))
         results.append((text, label))
 
-    with open('tweet_results.pkl') as f:
-        twitter_results = pickle.load(f)
+    with open('tweet_results.json') as f:
+        twitter_results = json.load(f)
     with open('tweet_labels.json') as f:
         twitter_labels = json.load(f)
 
@@ -32,7 +34,7 @@ def get_data():
         if str(tweet['id']) not in twitter_labels:
             continue
         label = newsapi_labels[article['title']]
-        text = tweet['full_text'].encode('utf-8')
+        text = tweet['full_text']
         results.append((text, label))
 
     return results
@@ -67,12 +69,78 @@ def word_tokenize(text, language='english', preserve_line=False):
     return [token for sent in sentences
             for token in _treebank_word_tokenizer.tokenize(sent)]
 
-def tokenize():
+def get_features():
+    import os
+    if os.path.isfile('X.npy'):
+        return np.load('X.npy'), np.load('Y.npy')
+    from generating_reviews_discovering_sentiment.encoder import Model
     data = get_data()
-    X = []
-    for msg, label in data:
-        X.append(model.transform(msg))
-        Y.append(float(label))
 
+    X = []
+    Y = []
+    model = Model()
+
+    batch_size = 200
+    index = 0
+    while True:
+        end_index = min(index + batch_size, len(data))
+        if end_index == index:
+            break
+        msgs = []
+        for i in range(index, end_index):
+            msg = data[i][0]
+            msgs.append(msg)
+            Y.append(float(data[i][1]))
+        feats = model.transform(msgs)
+        for f in feats:
+            X.append(f)
+        print(index,'/',len(data))
+        index = end_index
+
+    X = np.array(X)
+    Y = np.array(Y)
+    print(X[0])
+    print(X.shape, Y.shape)
+    np.save('X.npy', X)
+    np.save('Y.npy', Y)
+    return X, Y
+    
 if __name__ == '__main__':
-    tokenize()
+
+    X, Y = get_features()
+    print(X.shape, Y.shape)
+
+    sample_weight = Y * (1.0/np.mean(Y)) + ((1-Y) * np.mean(Y))
+    #print(sample_weight)
+    #print(np.mean(sample_weight))
+    #exit(0)
+
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.cross_validation import cross_val_score
+    from sklearn.model_selection import StratifiedKFold
+    from sklearn.metrics import accuracy_score, make_scorer, roc_auc_score, average_precision_score
+
+    scoring = make_scorer(roc_auc_score)
+    #scoring = make_scorer(average_precision_score)
+
+    coefs = []
+    intercepts = []
+
+    skf = StratifiedKFold(3, shuffle=True)
+    for train, test in skf.split(X, Y):
+
+        m = LogisticRegression(C=1e2)
+        m.fit(X[train], Y[train], sample_weight[train])
+
+        pred = m.predict_proba(X[test])[:,1]
+        print('accuracy', accuracy_score(Y[test], pred > 0.5,
+            sample_weight=sample_weight[test]))
+        #print(m.coef_, m.intercept_)
+        coefs.append(m.coef_)
+        intercepts.append(m.intercept_)
+
+    m.coef_ = np.mean(coefs, axis=0)
+    m.intercept_ = np.mean(intercepts, axis=0)
+    print('final', accuracy_score(Y, np.round(m.predict_proba(X)[:,1])))
+    joblib.dump(m, 'regressor.joblib')
+    

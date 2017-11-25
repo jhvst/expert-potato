@@ -1,7 +1,6 @@
 #from TwitterSearch import *
 import tweepy
-import json
-import pickle
+import ujson as json
 import time
 
 def get_keywords():
@@ -81,8 +80,8 @@ def get_tweets():
             tweet['cause'] = keyword_list[1]
         print(len(results), 'tweets total,', skips, 'skipped')
     
-    with open('tweet_results.pkl', 'w') as f:
-        pickle.dump(results, f)
+    with open('tweet_results.json', 'w') as f:
+        json.dump(results, f)
     print('done')
 
 if __name__ == '__main__':
