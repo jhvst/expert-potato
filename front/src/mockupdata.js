@@ -7,16 +7,17 @@ const mockupRows = [
     'arr':'18:00',
     'dep':'22:00',
     'issues':[
-      'weather',
-      'airspace',
-      'strikes',
-      'environmental',
-      'airport closure',
-      'national',
-      'large events',
-      'political conflicts',
-      'military operations',
-      'other'
+      'weather'
+      // 'weather',
+      // 'airspace',
+      // 'strikes',
+      // 'environmental',
+      // 'airport closure',
+      // 'national',
+      // 'large events',
+      // 'political conflicts',
+      // 'military operations',
+      // 'other'
     ]
   },
   'status': 'Warning' //operational, warning, danger
@@ -30,9 +31,7 @@ const mockupRows = [
     'dep':'22:00',
     'issues':[
       'large events',
-      'political conflicts',
-      'military operations',
-      'other'
+      'political conflicts'
     ]
   },
   'status': 'Danger' //operational, warning, danger
@@ -45,10 +44,6 @@ const mockupRows = [
     'arr':'18:00',
     'dep':'22:00',
     'issues':[
-      'weather',
-      'airspace',
-      'strikes',
-      'environmental',
       'airport closure',
       'other'
     ]

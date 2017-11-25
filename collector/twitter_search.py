@@ -1,17 +1,18 @@
 #from TwitterSearch import *
 import tweepy
-import json
-import pickle
+import ujson as json
 import time
 
 def get_keywords():
     # list of keyword permutations to search for
+    # read airports
+    with open('finnair_airports.csv') as f:
+        airports = [a.split(',')[2].strip() for a in f.readlines()]
+        airports = [a.replace('"','') for a in airports]
     
-    targets = ['heathrow', 'helsinki-vantaa', 'finnair']
-    problems = ['storm', 'rain', 'ice', 'strike', 'closed', 'fire', 'military',
-            'lakko', 'myrsky', 'due to']
-    #problems = ['delay', 'delayed', 'storm', 'rain', 'ice', 'strike', 'closed', 'fire',
-    #'military']
+    targets = airports
+    problems = ['storm', 'rain', 'strike', 'fire', 'military', 'lakko',
+            'myrsky', 'bomb', 'threat', 'security']
 
     from itertools import product
     return product(targets, problems)
@@ -81,8 +82,8 @@ def get_tweets():
             tweet['cause'] = keyword_list[1]
         print(len(results), 'tweets total,', skips, 'skipped')
     
-    with open('tweet_results.pkl', 'w') as f:
-        pickle.dump(results, f)
+    with open('tweet_results.json', 'w') as f:
+        json.dump(results, f)
     print('done')
 
 if __name__ == '__main__':
