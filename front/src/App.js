@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './finnair.svg';
 import './App.css';
 import FlightRow from './FlightRow.js'
+import mockupRows from './mockupdata'
+
 
 class App extends Component {
   render() {
@@ -19,11 +21,13 @@ class App extends Component {
                 <div className="column">To</div>
                 <div className="column">Dep</div>
                 <div className="column">Arr</div>
-                <div className="column">Status</div>
+                <div className="column">Issues</div>
           </div>
-          <FlightRow status='Operational' />
-          <FlightRow status='Warning' />
-          <FlightRow status='Danger' />
+          {mockupRows.map((item) => {
+            return (
+              <FlightRow key={item.info.flight} status={item.status} info={item.info} />
+            )
+          })}
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ExpandedFlightRow from './ExpandedFlightRow.js'
 import SmoothCollapse from 'react-smooth-collapse'
+import FlightRowIssueSymbols from './FlightRowIssueSymbols.js'
 
 class FlightRow extends Component {
   constructor() {
@@ -16,7 +17,6 @@ class FlightRow extends Component {
         <div
           className={'columns ' + this.props.status}
           onClick={() => {
-            console.log('here')
             this.setState({
               ...this.state,
               open: !this.state.open
@@ -24,21 +24,13 @@ class FlightRow extends Component {
             )
           }}
         >
-          <div className="column">AYY135</div>
-          <div className="column">HEL</div>
-          <div className="column">SFO</div>
-          <div className="column">18:00</div>
-          <div className="column">22:00</div>          
+          <div className="column">{this.props.info.flight}</div>
+          <div className="column">{this.props.info.from}</div>
+          <div className="column">{this.props.info.to}</div>
+          <div className="column">{this.props.info.arr}</div>
+          <div className="column">{this.props.info.dep}</div>
           <div className="column">
-            <i className="fa fa-cloud" aria-hidden="true"></i>
-            <i className="fa fa-globe" aria-hidden="true"></i>
-            <i className="fa fa-users" aria-hidden="true"></i>
-            <i className="fa fa-tree" aria-hidden="true"></i>
-            <i className="fa fa-plane" aria-hidden="true"></i>
-            <i className="fa fa-flag" aria-hidden="true"></i>
-            <i className="fa fa-futbol-o" aria-hidden="true"></i>
-            <i className="fa fa-briefcase" aria-hidden="true"></i>
-            <i className="fa fa-rocket" aria-hidden="true"></i>
+            <FlightRowIssueSymbols issues={this.props.info.issues}/>
           </div>
         </div>
         <SmoothCollapse

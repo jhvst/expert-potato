@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class ExpandedFlightRow extends Component {
   render() {
     return (
-      <div class="columns"
+      <div className="columns"
         onClick={() => {
           console.log('yes')
         }}
