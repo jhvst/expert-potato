@@ -17,15 +17,9 @@ class App extends Component {
                 <div className="column">Flight#</div>
                 <div className="column">From</div>
                 <div className="column">To</div>
-                <div className="column">Weather</div>
-                <div className="column">Airspace</div>
-                <div className="column">Strikes</div>
-                <div className="column">Enviromental</div>
-                <div className="column">Airport closure</div>
-                <div className="column">National</div>
-                <div className="column">Large events</div>
-                <div className="column">Political conflicts</div>
-                <div className="column">Military operations</div>
+                <div className="column">Dep</div>
+                <div className="column">Arr</div>
+                <div className="column">Status</div>
           </div>
           <FlightRow status='Operational' />
           <FlightRow status='Warning' />
