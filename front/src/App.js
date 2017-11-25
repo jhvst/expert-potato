@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './download.jpg';
+import logo from './finnair.svg';
 import './App.css';
 
 class App extends Component {
@@ -79,7 +79,7 @@ class App extends Component {
                 <td>+34</td>
                 <td>70</td>
               </tr>
-              <tr className="is-selected">
+              <tr className="Operational">
                 <th>4</th>
                 <td><a href="https://en.wikipedia.org/wiki/Manchester_City_F.C." title="Manchester City F.C.">Manchester City</a></td>
                 <td>38</td>
@@ -91,7 +91,7 @@ class App extends Component {
                 <td>+30</td>
                 <td>66</td>
               </tr>
-              <tr>
+              <tr className="Warning">
                 <th>5</th>
                 <td><a href="https://en.wikipedia.org/wiki/Manchester_United_F.C." title="Manchester United F.C.">Manchester United</a></td>
                 <td>38</td>
@@ -103,7 +103,7 @@ class App extends Component {
                 <td>+14</td>
                 <td>66</td>
               </tr>
-              <tr>
+              <tr className="Danger">
                 <th>6</th>
                 <td><a href="https://en.wikipedia.org/wiki/Southampton_F.C." title="Southampton F.C.">Southampton</a></td>
                 <td>38</td>
