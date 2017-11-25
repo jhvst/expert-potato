@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ExpandedFlightRow from './ExpandedFlightRow.js'
+import SmoothCollapse from 'react-smooth-collapse'
 
 class FlightRow extends Component {
   constructor() {
@@ -36,7 +37,12 @@ class FlightRow extends Component {
           <div className="column"><i className="fa fa-briefcase" aria-hidden="true"></i></div>
           <div className="column"><i className="fa fa-rocket" aria-hidden="true"></i></div>
         </div>
-        <ExpandedFlightRow open={this.state.open} />
+        <SmoothCollapse
+          expanded={this.state.open}
+          heightTransition=".2s"
+        >
+          <ExpandedFlightRow open={this.state.open} />
+        </SmoothCollapse>
       </span>
     );
   }
