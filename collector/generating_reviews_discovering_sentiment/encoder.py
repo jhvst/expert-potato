@@ -180,8 +180,8 @@ class Model(object):
                         smb[:, offset+start:offset+end, :])
                     smb[:, offset+start:offset+end, :] = batch_smb
             features = smb[0, unsort_idxs, :]
-            print('%0.3f seconds to transform %d examples' %
-                  (time.time() - tstart, n))
+            #print('%0.3f seconds to transform %d examples' %
+            #      (time.time() - tstart, n))
             return features
 
         def cell_transform(xs, indexes=None):
