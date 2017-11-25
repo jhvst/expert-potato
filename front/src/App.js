@@ -3,6 +3,7 @@ import logo from './finnair.svg';
 import './App.css';
 import FlightRow from './FlightRow.js'
 import mockupRows from './mockupdata'
+import flightSchedule from './flightSchedule.js'
 
 
 class App extends Component {
@@ -23,9 +24,9 @@ class App extends Component {
                 <div className="column">Arr</div>
                 <div className="column" style={{'flexGrow': 10}}>Issues</div>
               </div>
-          {mockupRows.map((item) => {
+          {flightSchedule.map((item, i) => {
             return (
-              <FlightRow key={item.info.flight} status={item.status} info={item.info} />
+              <FlightRow key={i} flightIndex={i} status="Operational" info={item} />
             )
           })}
             </div>

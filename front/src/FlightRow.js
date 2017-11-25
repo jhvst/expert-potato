@@ -25,13 +25,17 @@ class FlightRow extends Component {
           }}
         >
           <div className="status">
-            <div className="column">AYY135</div>
-            <div className="column">HEL</div>
-            <div className="column">SFO</div>
-            <div className="column">18:00</div>
-            <div className="column">22:00</div>
+            <div className="column">{this.props.info.PLAN_CARRIER_CODE + this.props.info.PLAN_FLIGHT_NUMBER}</div>
+            <div className="column">{this.props.info.PLAN_DEPARTURE_STATION}</div>
+            <div className="column">{this.props.info.PLAN_ARRIVAL_STATION}</div>
+            <div className="column">{this.props.info.PLAN_DEPARTURE_DATETIME_LOCAL}</div>
+            <div className="column">{this.props.info.PLAN_ARRIVAL_DATETIME_LOCAL}</div>
             <div className="column" style={{'flexGrow': 10}}>
-              <FlightRowIssueSymbols issues={this.props.info.issues}/>
+              Magic data that still needs to be gathered
+{/*
+  <FlightRowIssueSymbols issues={this.props.info.issues}/>
+  */
+}
             </div>
           </div>
           <div className="detail">
@@ -39,7 +43,7 @@ class FlightRow extends Component {
               expanded={this.state.open}
               heightTransition=".2s"
             >
-              <ExpandedFlightRow open={this.state.open} status={this.props.status} />
+              <ExpandedFlightRow flightIndex={this.props.flightIndex} open={this.state.open} status={this.props.status} />
             </SmoothCollapse>
           </div>
         </div>

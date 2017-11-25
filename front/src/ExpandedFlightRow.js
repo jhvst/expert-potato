@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import mockupExpandedData from './mockupexpandeddata.js'
+import flightSchedule from './flightSchedule.js'
 
 class ExpandedFlightRow extends Component {
   render() {
-
     return (
       <span>
         <div className={this.props.status} style={{'display': 'flex', 'flexDirection': 'row'}}
@@ -12,38 +11,38 @@ class ExpandedFlightRow extends Component {
         >
           <div className='column'>
             <div className="box">
-              <p className='subtitle'>Flight <b>{ mockupExpandedData[0].PLAN_CARRIER_CODE + mockupExpandedData[0].PLAN_FLIGHT_NUMBER }</b></p>
+              <p className='subtitle'>Flight <b>{ flightSchedule[this.props.flightIndex].PLAN_CARRIER_CODE + flightSchedule[this.props.flightIndex].PLAN_FLIGHT_NUMBER }</b></p>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Seq number:</div>
-                <div className='column'> {mockupExpandedData[0].PLAN_FLIGHT_SEQ_NUMBER}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_FLIGHT_SEQ_NUMBER}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Departure date:</div>
-                <div className='column'> {mockupExpandedData[0].PLAN_DEPARTURE_DATETIME_LOCAL}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_DATETIME_LOCAL}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Arrival date:</div>
-                <div className='column'> {mockupExpandedData[0].PLAN_ARRIVAL_DATETIME_LOCAL}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_DATETIME_LOCAL}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Departure airport:</div>
-                <div className='column'> {mockupExpandedData[0].PLAN_DEPARTURE_STATION}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Arrival airport:</div>
-                <div className='column'> {mockupExpandedData[0].PLAN_ARRIVAL_STATION}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Aircraft owner:</div>
-                <div className='column'> {mockupExpandedData[0].PLAN_AC_OWNER}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_AC_OWNER}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Aircraft service type:</div>
-                <div className='column'> {mockupExpandedData[0].PLAN_SERVICE_TYPE}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_SERVICE_TYPE}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Aircraft type:</div>
-                <div className='column'> {mockupExpandedData[0].PLAN_AC_TYPE}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_AC_TYPE}</div>
               </div>
             </div>
           </div>
