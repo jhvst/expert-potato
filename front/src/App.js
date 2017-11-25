@@ -13,29 +13,23 @@ class App extends Component {
             <h1 className="title">Expert potato</h1>
           </header>
           <hr />
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Flight#</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Weather</th>
-                <th>Airspace</th>
-                <th>Strikes</th>
-                <th>Enviromental</th>
-                <th>Airport closure</th>
-                <th>National</th>
-                <th>Large events</th>
-                <th>Political conflicts</th>
-                <th>Military operations</th>
-              </tr>
-            </thead>
-            <tbody>
-              <FlightRow />
-              <FlightRow />
-              <FlightRow />
-            </tbody>
-          </table>
+          <div className="columns">
+                <div className="column">Flight#</div>
+                <div className="column">From</div>
+                <div className="column">To</div>
+                <div className="column">Weather</div>
+                <div className="column">Airspace</div>
+                <div className="column">Strikes</div>
+                <div className="column">Enviromental</div>
+                <div className="column">Airport closure</div>
+                <div className="column">National</div>
+                <div className="column">Large events</div>
+                <div className="column">Political conflicts</div>
+                <div className="column">Military operations</div>
+          </div>
+          <FlightRow open={true} />
+          <FlightRow open={false} />
+          <FlightRow open={false} />
         </div>
       </div>
     );
