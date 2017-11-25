@@ -12,35 +12,35 @@ class ExpandedFlightRow extends Component {
           <div className='column'>
             <div className="box">
               <p className='subtitle'>Flight <b>{ flightSchedule[this.props.flightIndex].PLAN_CARRIER_CODE + flightSchedule[this.props.flightIndex].PLAN_FLIGHT_NUMBER }</b></p>
-              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+              <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Seq number:</div>
                 <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_FLIGHT_SEQ_NUMBER}</div>
               </div>
-              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+              <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Departure date:</div>
                 <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_DATETIME_UTC}</div>
               </div>
-              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+              <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Arrival date:</div>
                 <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_DATETIME_UTC}</div>
               </div>
-              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+              <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Departure airport:</div>
                 <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION}</div>
               </div>
-              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+              <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Arrival airport:</div>
                 <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION}</div>
               </div>
-              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+              <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Aircraft owner:</div>
                 <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_AC_OWNER}</div>
               </div>
-              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+              <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Aircraft service type:</div>
                 <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_SERVICE_TYPE}</div>
               </div>
-              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+              <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Aircraft type:</div>
                 <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_AC_TYPE}</div>
               </div>
