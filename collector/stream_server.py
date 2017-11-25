@@ -28,9 +28,12 @@ class MyListener(tweepy.StreamListener):
         prob = reg.predict_proba(feat)[0, 1]
         if prob < 0.56:
             return
+        # TODO: find airport
+        
         threats.append({
             probability: prob,
-            airport: '',
+            airport: 'HEL',
+            reason: 'weather'
         })
         save_threats()
         print('new threat:', prob, status.text)

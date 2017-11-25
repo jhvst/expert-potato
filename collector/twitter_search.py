@@ -5,12 +5,14 @@ import time
 
 def get_keywords():
     # list of keyword permutations to search for
+    # read airports
+    with open('finnair_airports.csv') as f:
+        airports = [a.split(',')[2].strip() for a in f.readlines()]
+        airports = [a.replace('"','') for a in airports]
     
-    targets = ['heathrow', 'helsinki-vantaa', 'finnair']
-    problems = ['storm', 'rain', 'ice', 'strike', 'closed', 'fire', 'military',
-            'lakko', 'myrsky', 'due to']
-    #problems = ['delay', 'delayed', 'storm', 'rain', 'ice', 'strike', 'closed', 'fire',
-    #'military']
+    targets = airports
+    problems = ['storm', 'rain', 'strike', 'fire', 'military', 'lakko',
+            'myrsky', 'bomb', 'threat', 'security']
 
     from itertools import product
     return product(targets, problems)
