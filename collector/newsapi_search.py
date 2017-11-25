@@ -1,5 +1,5 @@
 import requests
-import cPickle as pickle
+import pickle
 
 def get_keywords():
     # list of keyword permutations to search for
@@ -23,7 +23,7 @@ def main():
 
     results = []
     for keywords in get_keywords():
-        print 'searching for', keywords
+        print('searching for', keywords)
         page = 1
         while True:
             r = requests.get('https://newsapi.org/v2/everything',
@@ -37,14 +37,14 @@ def main():
             obj = r.json()
             for a in obj['articles']:
                 results.append(a)
-            print 'have', len(results), 'articles'
+            print('have', len(results), 'articles')
             if len(obj['articles']) == 20:
                 page += 1
                 continue
             break
     with open('newsapi_results.pkl', 'w') as f:
         pickle.dump(results, f)
-    print 'done'
+    print('done')
 
 if __name__ == '__main__':
     main()

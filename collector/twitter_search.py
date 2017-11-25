@@ -1,7 +1,7 @@
 #from TwitterSearch import *
 import tweepy
 import json
-import cPickle as pickle
+import pickle
 import time
 
 def get_keywords():
@@ -62,11 +62,11 @@ def get_tweets():
     api = tweepy.API(auth, wait_on_rate_limit=True,
             wait_on_rate_limit_notify=True)
     
-    print 'api created'
+    print('api created')
     results = []
     skips = 0
     for keyword_list in get_keywords():
-        print 'searching for', keyword_list, '...',
+        print('searching for', keyword_list[0], keyword_list[1], '...')
         #for tweet in ts.search_tweets_iterable(tso, callback=my_callback_closure):
         query = ' AND '.join(keyword_list)
         max_items = 500
@@ -79,11 +79,11 @@ def get_tweets():
             results.append(tweet)
             tweet['target'] = keyword_list[0] # Save target and cause in the result
             tweet['cause'] = keyword_list[1]
-        print len(results), 'tweets total,', skips, 'skipped'''
+        print(len(results), 'tweets total,', skips, 'skipped')
     
     with open('tweet_results.pkl', 'w') as f:
         pickle.dump(results, f)
-    print 'done'
+    print('done')
 
 if __name__ == '__main__':
     get_tweets()
