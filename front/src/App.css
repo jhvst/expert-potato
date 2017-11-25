@@ -91,6 +91,10 @@ body {
   color: white;
 }
 
+.flight-info-row .status{
+    cursor: pointer;
+}
+
 .Operational a, .Warning a, .Danger a {
   color: white;
   text-decoration: underline;

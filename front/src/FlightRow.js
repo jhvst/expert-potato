@@ -13,7 +13,7 @@ class FlightRow extends Component {
 
   render() {
     return (
-      <div className="row-container">
+      <div className="row-container flight-info-row">
         <div
           className={'columns ' + this.props.status}
           onClick={() => {
