@@ -6,7 +6,7 @@ def get_label(message):
     print()
     #print message
     #print message['description']
-    print(message['title'])
+    print(message['title'].encode("ascii", errors="ignore").decode())
     while True:
         result = input('This article will cause delay? 1 = yes, 0 = no: ')
         if result in ['0', '1']:
