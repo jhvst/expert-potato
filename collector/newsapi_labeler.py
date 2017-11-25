@@ -1,13 +1,14 @@
 import ujson as json
+import random
 
 def get_label(message):
     #print tweet.keys()
-    print
+    print()
     #print message
     #print message['description']
-    print message['title']
+    print(message['title'])
     while True:
-        result = raw_input('This article will cause delay? 1 = yes, 0 = no: ')
+        result = input('This article will cause delay? 1 = yes, 0 = no: ')
         if result in ['0', '1']:
             return int(result)
     
@@ -18,7 +19,7 @@ def main():
         with open('newsapi_labels.json') as f:
             labels = json.load(f)
     except:
-        print 'empty label file'
+        print('empty label file')
         labels = {}
 
     def save_labels():
@@ -29,6 +30,7 @@ def main():
     with open('newsapi_results.json') as f:
         news = json.load(f)
 
+    random.shuffle(news)
     # find tweets without labels
     for article in news:
         id_str = article['title']
