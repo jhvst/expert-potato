@@ -28,7 +28,7 @@ def parse_airports(filename):
 		firstRead = False
 		for row in reader:
 			if firstRead:
-				airports[row[13]] = row[3]
+				airports[row[13]] = (row[3], row[10])
 				#names.append(row[17])
 			firstRead = True
 	
@@ -41,9 +41,9 @@ airports = parse_airports('airports.csv')
 with open('finnair_airports.csv', 'w', encoding='utf-8', newline='') as csvfile:
 	writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 	for c in dests:
-		writer.writerow((c, airports[c]))
+		writer.writerow((c, airports[c][0], airports[c][1]))
 	
 
 for c in dests:
-	print(c, airports[c])
+	print(c, airports[c][0], airports[c][1])
 
