@@ -27,9 +27,9 @@ class App extends Component {
                 <div className="column">Political conflicts</div>
                 <div className="column">Military operations</div>
           </div>
-          <FlightRow open={true} status='Operational' />
-          <FlightRow open={false} status='Warning' />
-          <FlightRow open={false} status='Danger' />
+          <FlightRow status='Operational' />
+          <FlightRow status='Warning' />
+          <FlightRow status='Danger' />
         </div>
       </div>
     );

@@ -2,13 +2,25 @@ import React, { Component } from 'react';
 import ExpandedFlightRow from './ExpandedFlightRow.js'
 
 class FlightRow extends Component {
+  constructor() {
+   super();
+   this.state = {
+     open: false
+   };
+  }
+
   render() {
     return (
       <span className="row-container">
         <div
           className={'columns ' + this.props.status}
           onClick={() => {
-            console.log('yes')
+            console.log('here')
+            this.setState({
+              ...this.state,
+              open: !this.state.open
+            }
+            )
           }}
         >
           <div className="column">AYY135</div>
@@ -24,7 +36,7 @@ class FlightRow extends Component {
           <div className="column"><i className="fa fa-briefcase" aria-hidden="true"></i></div>
           <div className="column"><i className="fa fa-rocket" aria-hidden="true"></i></div>
         </div>
-        <ExpandedFlightRow open={this.props.open} />
+        <ExpandedFlightRow open={this.state.open} />
       </span>
     );
   }
