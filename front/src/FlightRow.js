@@ -13,7 +13,7 @@ class FlightRow extends Component {
 
   render() {
     return (
-      <span className="row-container">
+      <div className="row-container">
         <div
           className={'columns ' + this.props.status}
           onClick={() => {
@@ -24,22 +24,26 @@ class FlightRow extends Component {
             )
           }}
         >
-          <div className="column">{this.props.info.flight}</div>
-          <div className="column">{this.props.info.from}</div>
-          <div className="column">{this.props.info.to}</div>
-          <div className="column">{this.props.info.arr}</div>
-          <div className="column">{this.props.info.dep}</div>
-          <div className="column">
-            <FlightRowIssueSymbols issues={this.props.info.issues}/>
+          <div className="status">
+            <div className="column">AYY135</div>
+            <div className="column">HEL</div>
+            <div className="column">SFO</div>
+            <div className="column">18:00</div>
+            <div className="column">22:00</div>
+            <div className="column" style={{'flexGrow': 10}}>
+              <FlightRowIssueSymbols issues={this.props.info.issues}/>
+            </div>
+          </div>
+          <div className="detail">
+            <SmoothCollapse
+              expanded={this.state.open}
+              heightTransition=".2s"
+            >
+              <ExpandedFlightRow open={this.state.open} status={this.props.status} />
+            </SmoothCollapse>
           </div>
         </div>
-        <SmoothCollapse
-          expanded={this.state.open}
-          heightTransition=".2s"
-        >
-          <ExpandedFlightRow open={this.state.open} />
-        </SmoothCollapse>
-      </span>
+      </div>
     );
   }
 }
