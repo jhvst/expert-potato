@@ -1,4 +1,3 @@
-import cPickle as pickle
 import ujson as json
 
 def get_label(message):
@@ -27,8 +26,8 @@ def main():
             json.dump(labels, f)
 
     # load tweets
-    with open('newsapi_results.pkl') as f:
-        news = pickle.load(f)
+    with open('newsapi_results.json') as f:
+        news = json.load(f)
 
     # find tweets without labels
     for article in news:

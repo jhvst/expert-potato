@@ -1,5 +1,5 @@
 import requests
-import pickle
+import ujson as json
 
 def get_keywords():
     # list of keyword permutations to search for
@@ -42,8 +42,8 @@ def main():
                 page += 1
                 continue
             break
-    with open('newsapi_results.pkl', 'w') as f:
-        pickle.dump(results, f)
+    with open('newsapi_results.json', 'w') as f:
+        json.dump(results, f)
     print('done')
 
 if __name__ == '__main__':
