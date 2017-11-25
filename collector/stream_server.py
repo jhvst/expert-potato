@@ -61,6 +61,21 @@ def get_destinations(filename):
 	return names
 		
 
+# load predictor model...
+from create_model import word_tokenize
+reg = joblib.load('regressor.joblib')
+with open('words.json') as f:
+	g_words = json.load(f)
+	g_words_set = set(g_words)
+def text_to_prob(text):
+	x = np.zeros((1, len(g_words)))
+	for word in word_tokenize(text):
+		word = word.lower()
+		if word in g_words_set:
+			x[0, g_words.index(word)] = 1.0
+	prob = reg.predict_proba(x)[0, 1]
+	return prob
+
 class MyListener(tweepy.StreamListener):
 	def __init__(self):
 		super(MyListener, self).__init__()
@@ -69,12 +84,12 @@ class MyListener(tweepy.StreamListener):
 	def on_status(self, status):
 		if status.text.find('RT ') != -1:
 			return
-		feat = m.transform([status.text])
-		prob = reg.predict_proba(feat)[0, 1]
+
+		prob = text_to_prob(status.text)
 		
 		locations = find_tweet_locations(status, self.destinations)
-		
-		if prob < 0.56:
+
+		if prob < 0.500142755657:
 			return
 		# TODO: find airport
 		

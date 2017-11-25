@@ -25,7 +25,7 @@ def get_data():
             str((article['description'] or '').encode('utf-8'))
         results.append((text, label))
 
-    with open('tweet_results.json') as f:
+    with open('tweet_results.json','r') as f:
         twitter_results = json.load(f)
     with open('tweet_labels.json') as f:
         twitter_labels = json.load(f)
@@ -33,7 +33,7 @@ def get_data():
     for tweet in twitter_results:
         if str(tweet['id']) not in twitter_labels:
             continue
-        label = newsapi_labels[article['title']]
+        label = twitter_labels[str(tweet['id'])]
         text = tweet['full_text']
         results.append((text, label))
 
@@ -70,6 +70,38 @@ def word_tokenize(text, language='english', preserve_line=False):
             for token in _treebank_word_tokenizer.tokenize(sent)]
 
 def get_features():
+
+    data = get_data()
+
+    # tokenize everything and wordcount
+    wordcount = dict()
+    for msg, _ in data:
+        for word in word_tokenize(msg):
+            word = word.lower()
+            if word in wordcount:
+                wordcount[word] += 1
+            else:
+                wordcount[word] = 1
+    # discard rare words
+    words = sorted(wordcount.keys(), key=lambda w: wordcount[w])#[word for word in wordcount.keys() if wordcount[word] > 5]
+    words = words[-2000:]
+
+    with open('words.json', 'w') as f:
+        json.dump(words, f)
+    words_set = set(words)
+    print('have', len(words), 'words')
+
+    X = np.zeros((len(data), len(words)))
+    Y = np.zeros((len(data),))
+    for i, (msg, label) in enumerate(data):
+        for word in word_tokenize(msg):
+            if word not in words_set:
+                continue
+            X[i, words.index(word)] = 1.0
+        Y[i] = float(label)
+    return X, Y
+    exit(0)
+
     import os
     if os.path.isfile('X.npy'):
         return np.load('X.npy'), np.load('Y.npy')
@@ -114,35 +146,53 @@ if __name__ == '__main__':
     from sklearn.cross_validation import cross_val_score
     from sklearn.model_selection import StratifiedKFold
     from sklearn.metrics import accuracy_score, make_scorer, roc_auc_score, average_precision_score
+    from sklearn.ensemble import ExtraTreesClassifier
+
+    '''params = dict(n_estimators=10000, max_depth=5, class_weight='balanced',
+            max_features=1, n_jobs=8)
 
     scoring = make_scorer(roc_auc_score)
-    #scoring = make_scorer(average_precision_score)
 
-    coefs = []
-    intercepts = []
-
-    skf = StratifiedKFold(3, shuffle=True)
-    for train, test in skf.split(X, Y):
-
-        m = LogisticRegression(C=1e-6, class_weight='balanced')
-        m.fit(X[train], Y[train])
-        #print(m.coef_, m.intercept_)
-        coefs.append(m.coef_)
-        intercepts.append(m.intercept_)
-
-    m.coef_ = np.mean(coefs, axis=0)
-    m.intercept_ = np.mean(intercepts, axis=0)
-
+    params['max_depth'] = 1
+    print(cross_val_score(ExtraTreesClassifier(**params), X, Y,
+        scoring=scoring))
+    params['max_depth'] = 2
+    print(cross_val_score(ExtraTreesClassifier(**params), X, Y,
+        scoring=scoring))
+    params['max_depth'] = 3
+    print(cross_val_score(ExtraTreesClassifier(**params), X, Y,
+        scoring=scoring))
+    params['max_depth'] = 4
+    print(cross_val_score(ExtraTreesClassifier(**params), X, Y,
+        scoring=scoring))
+    params['max_depth'] = 5
+    print(cross_val_score(ExtraTreesClassifier(**params), X, Y,
+        scoring=scoring))
+    exit(0)'''
+    params = dict(n_estimators=10000, max_depth=3, class_weight='balanced',
+            max_features=1, n_jobs=8)
+    m = ExtraTreesClassifier(**params)
+    m.fit(X, Y)
     # find threshold
+    from sklearn.metrics import precision_recall_curve
     best_t = None
-    best_s = 0
-    for t in np.linspace(0.0, 1.0, 1000):
-        score = accuracy_score(Y, np.greater(m.predict_proba(X)[:,1], t) * 1.0)
-        if score > best_s:
-            best_s = score
+    precision, recall, thresholds = precision_recall_curve(Y, m.predict_proba(X)[:, 1])
+    for p, r, t in zip(precision, recall, thresholds):
+        print(p,r,t)
+        if r < 0.8:
             best_t = t
-        #print(t, score)
+            break
     print('best threshold:', best_t)
     print('final', accuracy_score(Y, m.predict_proba(X)[:,1] > best_t))
     joblib.dump(m, 'regressor.joblib')
+
+    print('top n words:')
+    feats = np.array(m.feature_importances_)
+    with open('words.json') as f:
+        words = json.load(f)
+    fscores = sorted(list(range(len(words))), key=lambda i: -feats[i])
+    for i in range(30):
+        print(words[fscores[i]])
+    print()
+    
     
