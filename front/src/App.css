@@ -1,12 +1,14 @@
 .App {
   text-align: center;
-  border-radius: 1em;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin-top: 5vh;
 }
 
 html {
-  background-color: red;
+  background: linear-gradient(rgba(80,126,177,.95),rgba(112,157,199,.95) 10%,rgba(221,233,245,.95) 38%,rgba(234,242,249,.95) 48%,rgba(242,250,255,.95) 62%);
+  height: 100%;
 }
 
 body {
@@ -25,7 +27,11 @@ body {
 }
 
 .row-container {
-  margin-top: 3px;
+  margin-top: 5px;
+}
+
+.status {
+  display: flex;
 }
 
 .App-logo {
@@ -37,6 +43,7 @@ body {
 }
 
 .columns {
+  flex-direction: column;
   margin-bottom: 3px;
   border-radius: 3px;
 
@@ -48,12 +55,17 @@ body {
 }
 
 .columns-header {
+  display: flex;
   font-variant: all-petite-caps;
 }
 
 /* framework override */
-.columns:last-child {
+.columns:last-child, .columns:not(:last-child) {
   margin-bottom: 0 !important;
+}
+
+.box {
+  text-align: left;
 }
 
 .Operational {
@@ -78,6 +90,9 @@ body {
 
 .App-header {
   padding: 20px;
+  padding-bottom: .5em;
+  align-self: left;
+  margin-left: 10%;
 }
 
 .App-title {

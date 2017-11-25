@@ -7,23 +7,25 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+        </header>
         <div className="container">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="title">Expert potato</h1>
-          </header>
-          <hr />
-          <div className="columns columns-header">
+          <div className="flight-table">
+            <div className="detail-wrapper">
+              <div className="columns-header">
                 <div className="column">Flight#</div>
                 <div className="column">From</div>
                 <div className="column">To</div>
                 <div className="column">Dep</div>
                 <div className="column">Arr</div>
-                <div className="column">Status</div>
+                <div className="column" style={{'flexGrow': 10}}>Status</div>
+              </div>
+              <FlightRow status='Operational' />
+              <FlightRow status='Warning' />
+              <FlightRow status='Danger' />
+            </div>
           </div>
-          <FlightRow status='Operational' />
-          <FlightRow status='Warning' />
-          <FlightRow status='Danger' />
         </div>
       </div>
     );
