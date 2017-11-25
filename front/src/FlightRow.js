@@ -4,9 +4,9 @@ import ExpandedFlightRow from './ExpandedFlightRow.js'
 class FlightRow extends Component {
   render() {
     return (
-      <span>
+      <span className="row-container">
         <div
-          className="columns"
+          className={'columns ' + this.props.status}
           onClick={() => {
             console.log('yes')
           }}

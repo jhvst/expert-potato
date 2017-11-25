@@ -13,7 +13,7 @@ class App extends Component {
             <h1 className="title">Expert potato</h1>
           </header>
           <hr />
-          <div className="columns">
+          <div className="columns columns-header">
                 <div className="column">Flight#</div>
                 <div className="column">From</div>
                 <div className="column">To</div>
@@ -27,9 +27,9 @@ class App extends Component {
                 <div className="column">Political conflicts</div>
                 <div className="column">Military operations</div>
           </div>
-          <FlightRow open={true} />
-          <FlightRow open={false} />
-          <FlightRow open={false} />
+          <FlightRow open={true} status='Operational' />
+          <FlightRow open={false} status='Warning' />
+          <FlightRow open={false} status='Danger' />
         </div>
       </div>
     );
