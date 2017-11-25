@@ -110,11 +110,6 @@ if __name__ == '__main__':
     X, Y = get_features()
     print(X.shape, Y.shape)
 
-    sample_weight = Y * (1.0/np.mean(Y)) + ((1-Y) * np.mean(Y))
-    #print(sample_weight)
-    #print(np.mean(sample_weight))
-    #exit(0)
-
     from sklearn.linear_model import LogisticRegression
     from sklearn.cross_validation import cross_val_score
     from sklearn.model_selection import StratifiedKFold
@@ -129,18 +124,25 @@ if __name__ == '__main__':
     skf = StratifiedKFold(3, shuffle=True)
     for train, test in skf.split(X, Y):
 
-        m = LogisticRegression(C=1e2)
-        m.fit(X[train], Y[train], sample_weight[train])
-
-        pred = m.predict_proba(X[test])[:,1]
-        print('accuracy', accuracy_score(Y[test], pred > 0.5,
-            sample_weight=sample_weight[test]))
+        m = LogisticRegression(C=1e-6, class_weight='balanced')
+        m.fit(X[train], Y[train])
         #print(m.coef_, m.intercept_)
         coefs.append(m.coef_)
         intercepts.append(m.intercept_)
 
     m.coef_ = np.mean(coefs, axis=0)
     m.intercept_ = np.mean(intercepts, axis=0)
-    print('final', accuracy_score(Y, np.round(m.predict_proba(X)[:,1])))
+
+    # find threshold
+    best_t = None
+    best_s = 0
+    for t in np.linspace(0.0, 1.0, 1000):
+        score = accuracy_score(Y, np.greater(m.predict_proba(X)[:,1], t) * 1.0)
+        if score > best_s:
+            best_s = score
+            best_t = t
+        #print(t, score)
+    print('best threshold:', best_t)
+    print('final', accuracy_score(Y, m.predict_proba(X)[:,1] > best_t))
     joblib.dump(m, 'regressor.joblib')
     
