@@ -13,16 +13,38 @@ class ExpandedFlightRow extends Component {
           <div className='column'>
             <div className="box">
               <p className='subtitle'>Flight <b>{ mockupExpandedData[0].PLAN_CARRIER_CODE + mockupExpandedData[0].PLAN_FLIGHT_NUMBER }</b></p>
-              <ul>
-                <li>Seq number: {mockupExpandedData[0].PLAN_FLIGHT_SEQ_NUMBER}</li>
-                <li>Local departure date: {mockupExpandedData[0].PLAN_DEPARTURE_DATETIME_LOCAL}</li>
-                <li>Local arrival date: {mockupExpandedData[0].PLAN_ARRIVAL_DATETIME_LOCAL}</li>
-                <li>Departure airport: {mockupExpandedData[0].PLAN_DEPARTURE_STATION}</li>
-                <li>Arrival airport: {mockupExpandedData[0].PLAN_ARRIVAL_STATION}</li>
-                <li>Aircraft owner: {mockupExpandedData[0].PLAN_AC_OWNER}</li>
-                <li>Aircraft service type: {mockupExpandedData[0].PLAN_SERVICE_TYPE}</li>
-                <li>Aircraft type: {mockupExpandedData[0].PLAN_AC_TYPE}</li>
-              </ul>
+              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+                <div className='column' style={{'fontWeight':'bold'}}>Seq number:</div>
+                <div className='column'> {mockupExpandedData[0].PLAN_FLIGHT_SEQ_NUMBER}</div>
+              </div>
+              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+                <div className='column' style={{'fontWeight':'bold'}}>Departure date:</div>
+                <div className='column'> {mockupExpandedData[0].PLAN_DEPARTURE_DATETIME_LOCAL}</div>
+              </div>
+              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+                <div className='column' style={{'fontWeight':'bold'}}>Arrival date:</div>
+                <div className='column'> {mockupExpandedData[0].PLAN_ARRIVAL_DATETIME_LOCAL}</div>
+              </div>
+              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+                <div className='column' style={{'fontWeight':'bold'}}>Departure airport:</div>
+                <div className='column'> {mockupExpandedData[0].PLAN_DEPARTURE_STATION}</div>
+              </div>
+              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+                <div className='column' style={{'fontWeight':'bold'}}>Arrival airport:</div>
+                <div className='column'> {mockupExpandedData[0].PLAN_ARRIVAL_STATION}</div>
+              </div>
+              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+                <div className='column' style={{'fontWeight':'bold'}}>Aircraft owner:</div>
+                <div className='column'> {mockupExpandedData[0].PLAN_AC_OWNER}</div>
+              </div>
+              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+                <div className='column' style={{'fontWeight':'bold'}}>Aircraft service type:</div>
+                <div className='column'> {mockupExpandedData[0].PLAN_SERVICE_TYPE}</div>
+              </div>
+              <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
+                <div className='column' style={{'fontWeight':'bold'}}>Aircraft type:</div>
+                <div className='column'> {mockupExpandedData[0].PLAN_AC_TYPE}</div>
+              </div>
             </div>
           </div>
           <div className='column'>
