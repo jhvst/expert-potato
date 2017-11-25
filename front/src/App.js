@@ -23,6 +23,7 @@ class App extends Component {
                 <div className="column">Dep</div>
                 <div className="column">Arr</div>
                 <div className="column" style={{'flexGrow': 10}}>Issues</div>
+                <div className="column">&nbsp;</div>
               </div>
           {flightSchedule.map((item, i) => {
             return (

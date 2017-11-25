@@ -16,15 +16,16 @@ class FlightRow extends Component {
       <div className="row-container flight-info-row">
         <div
           className={'columns ' + this.props.status}
-          onClick={() => {
-            this.setState({
-              ...this.state,
-              open: !this.state.open
-            }
-            )
-          }}
         >
-          <div className="status">
+          <div className="status"
+            onClick={() => {
+              this.setState({
+                ...this.state,
+                open: !this.state.open
+              }
+              )
+            }}
+          >
             <div className="column">{this.props.info.PLAN_CARRIER_CODE + this.props.info.PLAN_FLIGHT_NUMBER}</div>
             <div className="column">{this.props.info.PLAN_DEPARTURE_STATION}</div>
             <div className="column">{this.props.info.PLAN_ARRIVAL_STATION}</div>
@@ -37,6 +38,7 @@ class FlightRow extends Component {
   */
 }
             </div>
+            <div className="column"><i style={{'fontSize':'2em'}} className={ this.state.open ? "fa fa-chevron-up" : "fa fa-chevron-down"} aria-hidden="true"></i></div>
           </div>
           <div className="detail">
             <SmoothCollapse
