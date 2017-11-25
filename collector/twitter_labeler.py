@@ -2,10 +2,10 @@ import ujson as json
 
 def get_label(tweet):
     #print tweet.keys()
-    print
-    print tweet['full_text']
+    print()
+    print(tweet['full_text'])
     while True:
-        result = raw_input('This tweet will cause delay? 1 = yes, 0 = no: ')
+        result = input('This tweet will cause delay? 1 = yes, 0 = no: ')
         if result in ['0', '1']:
             return int(result)
     
@@ -16,7 +16,7 @@ def main():
         with open('tweet_labels.json') as f:
             labels = json.load(f)
     except:
-        print 'empty label file'
+        print('empty label file')
         labels = {}
 
     def save_labels():
