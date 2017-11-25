@@ -28,8 +28,8 @@ class FlightRow extends Component {
             <div className="column">{this.props.info.PLAN_CARRIER_CODE + this.props.info.PLAN_FLIGHT_NUMBER}</div>
             <div className="column">{this.props.info.PLAN_DEPARTURE_STATION}</div>
             <div className="column">{this.props.info.PLAN_ARRIVAL_STATION}</div>
-            <div className="column">{this.props.info.PLAN_DEPARTURE_DATETIME_LOCAL}</div>
-            <div className="column">{this.props.info.PLAN_ARRIVAL_DATETIME_LOCAL}</div>
+            <div className="column">{this.props.info.PLAN_DEPARTURE_DATETIME_UTC}</div>
+            <div className="column">{this.props.info.PLAN_ARRIVAL_DATETIME_UTC}</div>
             <div className="column" style={{'flexGrow': 10}}>
               Magic data that still needs to be gathered
 {/*

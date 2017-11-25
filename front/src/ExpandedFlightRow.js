@@ -18,11 +18,11 @@ class ExpandedFlightRow extends Component {
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Departure date:</div>
-                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_DATETIME_LOCAL}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_DATETIME_UTC}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Arrival date:</div>
-                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_DATETIME_LOCAL}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_DATETIME_UTC}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'box-shadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Departure airport:</div>
