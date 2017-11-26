@@ -9,11 +9,8 @@ import tweepy
 import json #as json
 import time
 import csv
-from generating_reviews_discovering_sentiment.encoder import Model
 
 reg = joblib.load('regressor.joblib')
-m = Model()
-
 threats = []
 
 def save_threats():
@@ -228,10 +225,11 @@ def get_keywords():
 	#return conditions
 
 def main():
-	consumer_key = '***REMOVED***'
-	consumer_secret = '***REMOVED***'
-	access_token = '***REMOVED***'
-	access_token_secret = '***REMOVED***'
+	keys = open('twitter_token.txt','r').readlines()
+	consumer_key = keys[0].strip()
+	consumer_secret = keys[1].strip()
+	access_token = keys[2].strip()
+	access_token_secret = keys[3].strip()
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)

@@ -22,41 +22,14 @@ def get_keywords():
 
 def get_tweets():
 
-    '''
-    tso = TwitterSearchOrder() 
-    tso.set_language('en')
-    tso.set_include_entities(False) # and don't give us all those entity information
-
-    ts = TwitterSearch(
-        consumer_key = '***REMOVED***',
-        consumer_secret = '***REMOVED***',
-        access_token = '***REMOVED***',
-        access_token_secret = '***REMOVED***'
-     )
-
-    def my_callback_closure(current_ts_instance): # accepts ONE argument: an instance of TwitterSearch
-        queries, tweets_seen = current_ts_instance.get_statistics()
-        if queries > 0 and (queries % 5) == 0: # trigger delay every 5th query
-            time.sleep(60) # sleep for 60 seconds
-
     results = []
     skips = 0
-    for keyword_list in get_keywords():
-        tso.set_keywords(keyword_list)
-        print 'searching for', keyword_list, '...',
-        for tweet in ts.search_tweets_iterable(tso, callback=my_callback_closure):
-            if tweet['truncated']:
-                skips += 1
-                continue
-            results.append(tweet)
-            tweet['target'] = keyword_list[0] # Save target and cause in the result
-            tweet['cause'] = keyword_list[1]
-        print len(results), 'tweets total,', skips, 'skipped'''
 
-    consumer_key = '***REMOVED***'
-    consumer_secret = '***REMOVED***'
-    access_token = '***REMOVED***'
-    access_token_secret = '***REMOVED***'
+    keys = open('twitter_token.txt','r').readlines()
+    consumer_key = keys[0].strip()
+    consumer_secret = keys[1].strip()
+    access_token = keys[2].strip()
+    access_token_secret = keys[3].strip()
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
