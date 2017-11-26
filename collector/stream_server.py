@@ -33,12 +33,13 @@ def find_tweet_locations(status, destinations):
 			user_time_zone = status._json['user']['time_zone'].lower()
 		
 		for a, t, c in destinations:
-			if text.find(t.lower()) > 0 or user_location.find(t.lower()) > 0 or user_time_zone.find(t.lower()) > 0:
+			if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
+				locations.clear()
 				locations.append((a, t, c))
 				break
 				
-			if text.find(c.lower()) > 0 or user_location.find(c.lower()) > 0 or user_time_zone.find(c.lower()) > 0:
-				locations.append((a, , c))
+			if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
+				locations.append((a, t, c))
 			
 		print(locations)
 		print(text)

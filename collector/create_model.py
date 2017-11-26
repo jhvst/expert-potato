@@ -2,7 +2,7 @@
 
 #import keras
 import pickle
-import ujson as json
+import json #as json
 import re
 import numpy as np
 from sklearn.externals import joblib
