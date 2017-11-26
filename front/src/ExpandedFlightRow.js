@@ -68,15 +68,26 @@ class ExpandedFlightRow extends Component {
             <div className='box'>
               <p className='subtitle'>Weather</p>
               <div className="media-content">
-                Weather in place of departure: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Mode }
-                <br />
-                Weather risks in the place of departure (for hours of time: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Risks.length }): { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Risks.join(", ") }
+                <div className="box">
+                  Weather in {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION}: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Mode }
+                </div>
+                { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Risks.length > 0
+                  ? <div className="box"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+  Weather risks in the place of departure: <br /> { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Risks[0] } </div>
+                  : ''
+                }
+
               </div>
-              <br /> <br />
+              <br />
               <div className="media-content">
-                Weather in place of arrival { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Mode }
-                <br />
-                Weather risks in the place of arrival (for hours of time: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Risks.length }): { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Risks.join(", ") }
+                <div className="box">
+                  Weather in {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION}: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Mode }
+                </div>
+                { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Risks.length > 0
+                  ? <div className="box"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+  Weather risks in the place of arrival: <br /> { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Risks[0] } </div>
+                  : ''
+                }
               </div>
             </div>
           </div>
