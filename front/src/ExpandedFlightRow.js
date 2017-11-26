@@ -53,13 +53,20 @@ class ExpandedFlightRow extends Component {
             <div className='box'>
               <p className='subtitle'>Risks</p>
               <div className="media-content">
-                {JSON.stringify(flightSchedule[this.props.flightIndex].threat)}
+                {
+                  flightSchedule[this.props.flightIndex].threat.map((singleRisk, i) => {
+                    console.log(singleRisk)
+                    return singleRisk.source == 'twitter'
+                    ? <div key={i} className="box"><div className="subtitle">Tweet:</div> {singleRisk.twitter_message} </div>
+                    : <div key={i} className="box"><div className="subtitle">News article:</div> {singleRisk.article_title} </div>
+                  })
+                }
               </div>
             </div>
           </div>
           <div className='column'>
             <div className='box'>
-              <p className='subtitle'>Stats</p>
+              <p className='subtitle'>Weather</p>
               <div className="media-content">
                 Weather in place of departure: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Mode }
                 <br />
