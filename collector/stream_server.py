@@ -21,20 +21,27 @@ def save_threats():
 		json.dump(f, threats)
 
 def find_tweet_locations(status, destinations):
-		print(status._json['text'])
-		
 		locations = []
 		
-		user_location = status._json['user']['location'].lower()
-		user_time_zone = status._json['user']['time_zone'].lower()
+		user_location = ''
+		user_time_zone = ''
+		text = status._json['text'].lower()
 		
-		for d in destinations:
-			if user_location.find(d.lower()) > 0:
-				locations.append(d)
-			if user_time_zone.find(d.lower()) > 0:
-				locations.append(d)
+		if status._json['user']['location'] is not None:
+			user_location = status._json['user']['location'].lower()
+		if status._json['user']['time_zone'] is not None:
+			user_time_zone = status._json['user']['time_zone'].lower()
 		
+		for a, t, c in destinations:
+			if text.find(t.lower()) > 0 or user_location.find(t.lower()) > 0 or user_time_zone.find(t.lower()) > 0:
+				locations.append((a, t, c))
+				break
+				
+			if text.find(c.lower()) > 0 or user_location.find(c.lower()) > 0 or user_time_zone.find(c.lower()) > 0:
+				locations.append((a, , c))
+			
 		print(locations)
+		print(text)
 		
 		print(status._json['user']['location'])
 		print(status._json['user']['time_zone'])
@@ -55,9 +62,8 @@ def get_destinations(filename):
 	with open(filename, 'r', encoding="utf-8") as csvfile:
 		reader = csv.reader(csvfile, delimiter=',', quotechar='"')
 		for row in reader:
-			names.append(row[1])
+			names.append((row[0], row[2], row[3]))
 		
-	names = set(names)
 	return names
 		
 
