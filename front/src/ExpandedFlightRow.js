@@ -72,7 +72,7 @@ class ExpandedFlightRow extends Component {
                   Weather in {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION}: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Mode }
                 </div>
                 { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Risks.length > 0
-                  ? <div className="box"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                  ? <div className="box"><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
   Weather risks in the place of departure: <br /> { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Risks[0] } </div>
                   : ''
                 }
@@ -84,7 +84,7 @@ class ExpandedFlightRow extends Component {
                   Weather in {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION}: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Mode }
                 </div>
                 { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Risks.length > 0
-                  ? <div className="box"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
+                  ? <div className="box"><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;
   Weather risks in the place of arrival: <br /> { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Risks[0] } </div>
                   : ''
                 }
