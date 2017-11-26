@@ -25,8 +25,10 @@ def find_tweet_locations(status, destinations):
 		
 		user_location = ''
 		user_time_zone = ''
-		text = status['full_text'].lower()
+		text = text = status['text'].lower()
 		
+		if 'full_text' in status['user']:
+			text = status['full_text'].lower()
 		if status['user']['location'] is not None:
 			user_location = status['user']['location'].lower()
 		if status['user']['time_zone'] is not None:
@@ -34,13 +36,13 @@ def find_tweet_locations(status, destinations):
 		
 		for a, t, c in destinations:
 			if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
-				locations.clear()
-				locations.append((a, t, c))
-				break
+				locations.append(a)
+		
+		if len(locations) == 0:
+			for a, t, c in destinations:
+				if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
+					locations.append(a)
 				
-			if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
-				locations.append((a, t, c))
-			
 		print(locations)
 		print(text)
 		
@@ -177,7 +179,7 @@ def tweet_to_threat(status):
 	return {
 		'probability': prob,
 		'source': 'twitter',
-		'airport': 'HEL',
+		'airport': locations,
 		'twitter_message': text,
 		'category': text_to_category(text)
 	}
@@ -221,8 +223,8 @@ def main():
 	listener.filter(track=get_keywords())
 
 if __name__ == '__main__':
-	#main()
-	#exit(0)
+	main()
+	exit(0)
 	threats = []
 	with open('tweet_results.json') as f:
 		tweets = json.load(f)
