@@ -21,3 +21,6 @@ yarn-debug.log*
 yarn-error.log*
 generator/node_modules
 yarn.lock
+
+*.swp
+*.pyc

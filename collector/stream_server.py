@@ -9,51 +9,64 @@ import tweepy
 import json #as json
 import time
 import csv
-from generating_reviews_discovering_sentiment.encoder import Model
 
 reg = joblib.load('regressor.joblib')
-m = Model()
-
 threats = []
 
 def save_threats():
 	with open('../front/public/threats.json', 'w') as f:
 		json.dump(f, threats)
 
-def find_tweet_locations(status, destinations):
+def find_locations(status, destinations):
 		locations = []
-		
-		user_location = ''
-		user_time_zone = ''
-		text = status['full_text'] if 'full_text' in status else status['text']
-		text = text.lower()
-		if status['user']['location'] is not None:
-			user_location = status['user']['location'].lower()
-		if status['user']['time_zone'] is not None:
-			user_time_zone = status['user']['time_zone'].lower()
-		
-		for a, t, c in destinations:
-			if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
-				locations.append(a)
-		
-		if len(locations) == 0:
+			
+		if isinstance(status, str):
 			for a, t, c in destinations:
-				if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
+				if status.find(t.lower()) >= 0:
 					locations.append(a)
-				
-		print(locations)
-		print(text)
-		
-		print(status['user']['location'])
-		print(status['user']['time_zone'])
-		print(status['user']['geo_enabled'])
-		print(status['geo'])
-		print(status['coordinates'])
-		print(status['place'])
-		print('')
-		#print(status)
-		#user = get_user(status[])
-		#print('')
+			
+			if len(locations) == 0:
+				for a, t, c in destinations:
+					if status.find(c.lower()) >= 0:
+						locations.append(a)
+			
+		else:		
+			user_location = ''
+			user_time_zone = ''
+			text = status['full_text'] if 'full_text' in status else status['text']
+			text = text.lower()
+			if status['user']['location'] is not None:
+				user_location = status['user']['location'].lower()
+			if status['user']['time_zone'] is not None:
+				user_time_zone = status['user']['time_zone'].lower()
+			if 'place' in status['user']:
+				if status['user']['place']['city'] is not None:
+					user_location = user_location + ' ' + status['user']['place']['city']
+				if status['user']['place']['country'] is not None:
+					user_location = user_location + ' ' + status['user']['place']['country']
+			
+			for a, t, c in destinations:
+				if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
+					locations.append(a)
+			
+			if len(locations) == 0:
+				for a, t, c in destinations:
+					if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
+						locations.append(a)
+					
+			print(locations)
+			print(text)
+			
+			print(status['user']['location'])
+			print(status['user']['time_zone'])
+			print(status['user']['geo_enabled'])
+			print(status['geo'])
+			print(status['coordinates'])
+			print(status['place'])
+			print('')
+			#print(status)
+			#user = get_user(status[])
+			#print('')
 		return locations
 
 		
@@ -169,7 +182,7 @@ def tweet_to_threat(status):
 
 	prob = text_to_prob(text)
 	
-	locations = find_tweet_locations(status, g_destinations)
+	locations = find_locations(status, g_destinations)
 
 	if prob < 0.500142755657:
 		print('prob', prob, 'below threshold')
@@ -198,28 +211,35 @@ class MyListener(tweepy.StreamListener):
 def get_keywords():
 
 	# list of keyword permutations to search for
-	targets = ['heathrow', 'helsinki-vantaa', 'finnair', 'airport']
-	problems = ['storm', 'rain', 'ice', 'strike', 'closed', 'fire', 'military',
+	targets = [t[1] for t in get_destinations('finnair_airports.csv')]
+	problems = ['storm', 'rain', 'hail', 'flood', 'strike', 'closed', 'firefight', 'security',
+			'military', 'shoot', 'shot', 'police', 'kill'
 			'lakko', 'myrsky']
-	get_destinations('finnair_airports.csv')
+	
+	return problems
 
-	from itertools import product
-	conditions = list(product(targets, problems))
+	#from itertools import product
+	#conditions = list(product(targets, problems))
 	#conditions = [a + ' AND ' + b for a, b in conditions]
-	conditions = [b for a, b in conditions]
-	return conditions
+	#conditions = [b for a, b in conditions]
+	#return conditions
 
 def main():
-	consumer_key = '***REMOVED***'
-	consumer_secret = '***REMOVED***'
-	access_token = '***REMOVED***'
-	access_token_secret = '***REMOVED***'
+	keys = open('twitter_token.txt','r').readlines()
+	consumer_key = keys[0].strip()
+	consumer_secret = keys[1].strip()
+	access_token = keys[2].strip()
+	access_token_secret = keys[3].strip()
 
 	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
 	myListener = MyListener()
-	listener = tweepy.Stream(auth=auth, listener=myListener)
-	listener.filter(track=get_keywords())
+	while True:
+		try:
+			listener = tweepy.Stream(auth=auth, listener=myListener)
+			listener.filter(track=get_keywords())
+		except Exception:
+			pass  # or you could use 'continue'
 
 if __name__ == '__main__':
 	main()

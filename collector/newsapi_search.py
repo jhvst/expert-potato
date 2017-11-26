@@ -18,7 +18,7 @@ def get_keywords():
     return product(targets, problems)
 
 def main():
-    apikey = '141d03e1166245eba71c3d00d7d316a4'
+    apikey = open('newsapi_token.txt','r').read().strip()
     results = []
     for keywords in get_keywords():
         print('searching for', keywords)
@@ -33,6 +33,8 @@ def main():
                 }
             )
             obj = r.json()
+            if not 'articles' in obj:
+                break
             for a in obj['articles']:
                 results.append(a)
             print('have', len(results), 'articles')
