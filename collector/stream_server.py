@@ -292,8 +292,6 @@ if __name__ == '__main__':
                 t = article_to_threat(article)
                 print(i, 'num threats', len(threats))
                 if t:
-                    print(t)
-                    exit(0)
                     threats.append(t)
                     print(threats[-1])
                     save_model()
