@@ -29,11 +29,11 @@ class ExpandedFlightRow extends Component {
               </div>
               <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Departure airport:</div>
-                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION} / {flightSchedule[this.props.flightIndex].departureAirport}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Arrival airport:</div>
-                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION}</div>
+                <div className='column'> {flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION} / {flightSchedule[this.props.flightIndex].arrivalAirport}</div>
               </div>
               <div className='columns' style={{'flexDirection':'row', 'boxShadow':'none'}}>
                 <div className='column' style={{'fontWeight':'bold'}}>Aircraft owner:</div>
