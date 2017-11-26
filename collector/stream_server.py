@@ -20,40 +20,51 @@ def save_threats():
 	with open('../front/public/threats.json', 'w') as f:
 		json.dump(f, threats)
 
-def find_tweet_locations(status, destinations):
+def find_locations(status, destinations):
 		locations = []
-		
-		user_location = ''
-		user_time_zone = ''
-		text = status['full_text'] if 'full_text' in status else status['text']
-		text = text.lower()
-		if status['user']['location'] is not None:
-			user_location = status['user']['location'].lower()
-		if status['user']['time_zone'] is not None:
-			user_time_zone = status['user']['time_zone'].lower()
-		
-		for a, t, c in destinations:
-			if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
-				locations.append(a)
-		
-		if len(locations) == 0:
+			
+		if isinstance(status, str):
 			for a, t, c in destinations:
-				if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
+				if status.find(t.lower()) >= 0:
 					locations.append(a)
-				
-		print(locations)
-		print(text)
-		
-		print(status['user']['location'])
-		print(status['user']['time_zone'])
-		print(status['user']['geo_enabled'])
-		print(status['geo'])
-		print(status['coordinates'])
-		print(status['place'])
-		print('')
-		#print(status)
-		#user = get_user(status[])
-		#print('')
+			
+			if len(locations) == 0:
+				for a, t, c in destinations:
+					if status.find(c.lower()) >= 0:
+						locations.append(a)
+			
+		else:		
+			user_location = ''
+			user_time_zone = ''
+			text = status['full_text'] if 'full_text' in status else status['text']
+			text = text.lower()
+			if status['user']['location'] is not None:
+				user_location = status['user']['location'].lower()
+			if status['user']['time_zone'] is not None:
+				user_time_zone = status['user']['time_zone'].lower()
+			
+			for a, t, c in destinations:
+				if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
+					locations.append(a)
+			
+			if len(locations) == 0:
+				for a, t, c in destinations:
+					if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
+						locations.append(a)
+					
+			print(locations)
+			print(text)
+			
+			print(status['user']['location'])
+			print(status['user']['time_zone'])
+			print(status['user']['geo_enabled'])
+			print(status['geo'])
+			print(status['coordinates'])
+			print(status['place'])
+			print('')
+			#print(status)
+			#user = get_user(status[])
+			#print('')
 		return locations
 
 		
@@ -169,7 +180,7 @@ def tweet_to_threat(status):
 
 	prob = text_to_prob(text)
 	
-	locations = find_tweet_locations(status, g_destinations)
+	locations = find_locations(status, g_destinations)
 
 	if prob < 0.500142755657:
 		print('prob', prob, 'below threshold')
