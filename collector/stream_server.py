@@ -25,12 +25,12 @@ def find_tweet_locations(status, destinations):
 		
 		user_location = ''
 		user_time_zone = ''
-		text = status._json['text'].lower()
+		text = status['full_text'].lower()
 		
-		if status._json['user']['location'] is not None:
-			user_location = status._json['user']['location'].lower()
-		if status._json['user']['time_zone'] is not None:
-			user_time_zone = status._json['user']['time_zone'].lower()
+		if status['user']['location'] is not None:
+			user_location = status['user']['location'].lower()
+		if status['user']['time_zone'] is not None:
+			user_time_zone = status['user']['time_zone'].lower()
 		
 		for a, t, c in destinations:
 			if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
@@ -44,15 +44,15 @@ def find_tweet_locations(status, destinations):
 		print(locations)
 		print(text)
 		
-		print(status._json['user']['location'])
-		print(status._json['user']['time_zone'])
-		print(status._json['user']['geo_enabled'])
-		print(status._json['geo'])
-		print(status._json['coordinates'])
-		print(status._json['place'])
+		print(status['user']['location'])
+		print(status['user']['time_zone'])
+		print(status['user']['geo_enabled'])
+		print(status['geo'])
+		print(status['coordinates'])
+		print(status['place'])
 		print('')
-		#print(status._json)
-		#user = get_user(status._json[])
+		#print(status)
+		#user = get_user(status[])
 		#print('')
 		return locations
 
@@ -162,10 +162,10 @@ def text_to_category(text):
 
 g_destinations = get_destinations('finnair_airports.csv')
 def tweet_to_threat(status):
-	if status.text.find('RT ') != -1:
+	if status['full_text'].find('RT ') != -1:
 		return None
 
-	prob = text_to_prob(status.text)
+	prob = text_to_prob(status['full_text'])
 	
 	locations = find_tweet_locations(status, g_destinations)
 
@@ -176,12 +176,13 @@ def tweet_to_threat(status):
 		probability: prob,
 		source: 'twitter',
 		airport: 'HEL',
-		twitter_message: status.text,
-		category: text_to_category(status.text)
+		twitter_message: status['full_text'],
+		category: text_to_category(status['full_text'])
 	}
 
 class MyListener(tweepy.StreamListener):
 	def on_status(self, status):
+		status = status._json
 		t = tweet_to_threat(status)
 		if t is not None:
 			threats.append(t)
@@ -219,3 +220,12 @@ def main():
 
 if __name__ == '__main__':
 	main()
+	exit(0)
+	with open('tweet_results.json') as f:
+		tweets = json.load(f)
+		for i, tweet in enumerate(tweets):
+			#print(tweet.keys())
+			t = tweet_to_threat(tweet)
+			print(i)
+			if t:
+				print(t)
