@@ -7,25 +7,17 @@
 }
 
 html {
-  background: rgba(242,250,255,.95)
+  background: #f1f1f1;
 }
 
 body {
-  background: linear-gradient(
-    to right bottom,
-    rgba(80,126,177,.95),
-    rgba(112,157,199,.95) 10%,
-    rgba(221,233,245,.95) 30%,
-    rgba(234,242,249,.95) 40%,
-    rgba(242,250,255,.95) 50%);
-  height: 100vh;
   padding-top: 2.5em;
   padding-bottom: 2.5em;
 }
 
 .container {
   padding: 1em;
-  border-radius: 1em;
+  border-radius: 10px;
   margin-bottom: 1em;
   box-shadow:
   0 2px 2px 0 rgba(0,0,0,0.14),
@@ -83,12 +75,7 @@ body {
 }
 
 .Operational {
-  background-color: #2ecc71;
-  color: white;
-}
-
-.Warning {
-  background-color: #f1c40f;
+  background-color: #4B83FC;
   color: white;
 }
 

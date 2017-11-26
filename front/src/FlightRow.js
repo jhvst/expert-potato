@@ -31,7 +31,7 @@ class FlightRow extends Component {
             <div className="column">{this.props.info.PLAN_ARRIVAL_STATION}</div>
             <div className="column">{this.props.info.PLAN_DEPARTURE_DATETIME_UTC}</div>
             <div className="column">{this.props.info.PLAN_ARRIVAL_DATETIME_UTC}</div>
-            <div className="column" style={{'flexGrow': 10}}>
+            <div className="column" style={{'flexGrow': 5}}>
             <FlightRowIssueSymbols issues={this.props.info.threat}/>
 
             </div>
