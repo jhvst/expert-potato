@@ -169,7 +169,7 @@ if __name__ == '__main__':
     print(cross_val_score(ExtraTreesClassifier(**params), X, Y,
         scoring=scoring))
     exit(0)'''
-    params = dict(n_estimators=10000, max_depth=3, class_weight='balanced',
+    params = dict(n_estimators=1000, max_depth=3, class_weight='balanced',
             max_features=1, n_jobs=8)
     m = ExtraTreesClassifier(**params)
     m.fit(X, Y)

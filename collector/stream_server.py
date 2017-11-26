@@ -25,10 +25,8 @@ def find_tweet_locations(status, destinations):
 		
 		user_location = ''
 		user_time_zone = ''
-		text = text = status['text'].lower()
-		
-		if 'full_text' in status['user']:
-			text = status['full_text'].lower()
+		text = status['full_text'] if 'full_text' in status else status['text']
+		text = text.lower()
 		if status['user']['location'] is not None:
 			user_location = status['user']['location'].lower()
 		if status['user']['time_zone'] is not None:
@@ -181,7 +179,8 @@ def tweet_to_threat(status):
 		'source': 'twitter',
 		'airport': locations,
 		'twitter_message': text,
-		'category': text_to_category(text)
+		'category': text_to_category(text),
+		'created_at': tweet['created_at']
 	}
 
 class MyListener(tweepy.StreamListener):
@@ -226,6 +225,9 @@ if __name__ == '__main__':
 	main()
 	exit(0)
 	threats = []
+	def save_model():
+		with open('threats.json', 'w') as f:
+			json.dump(threats, f)
 	with open('tweet_results.json') as f:
 		tweets = json.load(f)
 		for i, tweet in enumerate(tweets):
@@ -235,7 +237,5 @@ if __name__ == '__main__':
 			if t:
 				threats.append(t)
 				print(threats[-1])
-				if len(threats) > 10:
-					break
-	with open('threats.json', 'w') as f:
-		json.dump(threats, f)
+				save_model()
+	save_model()
