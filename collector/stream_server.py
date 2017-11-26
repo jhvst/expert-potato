@@ -83,35 +83,113 @@ def text_to_prob(text):
 	prob = reg.predict_proba(x)[0, 1]
 	return prob
 
+def text_to_category(text):
+	categories = {
+    	'weather':[
+      	  'hail',
+      	  'storm',
+      	  'wind',
+      	  'hurricane',
+      	  'tornado',
+      	  'snow',
+      	  'sleet'
+    	],
+    	'airspace':[
+      	  'closed airspace',
+      	  'radiation'
+    	],
+    	'strikes':[
+      	  'strike',
+      	  'labour strike',
+      	  'labor strike',
+      	  'strike action'
+    	],
+    	'environmental':[
+      	  'mudslide',
+      	  'tsunami',
+      	  'earthquake',
+      	  'dust',
+      	  'volcano',
+      	  'forest fire',
+      	  'dust bowl',
+      	  'dust storm'
+    	],
+    	'airport closure':[
+      	  'airfield closed'
+    	],
+    	'national':[
+      	  'christmas',
+      	  'xmas',
+      	  'national',
+      	  'holiday', #overbooking
+      	  'thanksgiving',
+      	  'national holiday'
+    	],
+    	'large events':[
+      	  'olympics',
+      	  'festival',
+      	  'parade',
+      	  'carneval',
+      	  'carnival'
+    	],
+    	'political conflicts':[
+      	  'rally',
+      	  'demonstration',
+      	  'protest',
+      	  'picket',
+      	  'manifestation',
+      	  'political conflict'
+    	],
+    	'military operations':[
+      	  'war',
+      	  'conflict',
+      	  'military operations'
+    	],
+    	'terror threat':[
+      	  'terrorism',
+      	  'bomb',
+      	  'terror',
+      	  'attack',
+      	  'terrorist',
+      	  'terror threat'
+    	]
+	}
+	for category in categories.keys():
+		for keyword in categories[category]:
+			if text.lower().find(keyword) != -1:
+				return category
+	return 'other'
+
+g_destinations = get_destinations('finnair_airports.csv')
+def tweet_to_threat(status):
+	if status.text.find('RT ') != -1:
+		return None
+
+	prob = text_to_prob(status.text)
+	
+	locations = find_tweet_locations(status, g_destinations)
+
+	if prob < 0.500142755657:
+		print('prob', prob, 'below threshold')
+		return None
+	return {
+		probability: prob,
+		source: 'twitter',
+		airport: 'HEL',
+		twitter_message: status.text,
+		category: text_to_category(status.text)
+	}
+
 class MyListener(tweepy.StreamListener):
-	def __init__(self):
-		super(MyListener, self).__init__()
-		self.destinations = get_destinations('finnair_airports.csv')
-
 	def on_status(self, status):
-		if status.text.find('RT ') != -1:
-			return
-
-		prob = text_to_prob(status.text)
-		
-		locations = find_tweet_locations(status, self.destinations)
-
-		if prob < 0.500142755657:
-			return
-		# TODO: find airport
-		
-		
-		threats.append({
-			probability: prob,
-			airport: 'HEL',
-			reason: 'weather'
-		})
-		save_threats()
-		print('new threat:', prob, status.text)
+		t = tweet_to_threat(status)
+		if t is not None:
+			threats.append(t)
+			save_threats()
+			print('new threat:', threats[-1])
 
 	def on_error(self, status_code):
 		print('error',status_code)
-		
 
 def get_keywords():
 
@@ -119,6 +197,7 @@ def get_keywords():
 	targets = ['heathrow', 'helsinki-vantaa', 'finnair', 'airport']
 	problems = ['storm', 'rain', 'ice', 'strike', 'closed', 'fire', 'military',
 			'lakko', 'myrsky']
+	get_destinations('finnair_airports.csv')
 
 	from itertools import product
 	conditions = list(product(targets, problems))
@@ -140,15 +219,3 @@ def main():
 
 if __name__ == '__main__':
 	main()
-	exit(0)
-	text = ' '.join(sys.argv[1:]).strip()
-	reg = joblib.load('regressor.joblib')
-	m = Model()
-	print('input:', text)
-	feat = m.transform([text])
-	print(feat)
-	prob = reg.predict_proba(feat)[0, 1]
-	print(prob)
-	
-
-	
