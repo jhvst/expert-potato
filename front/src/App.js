@@ -39,18 +39,14 @@ class App extends Component {
         <div className="container">
           <div className="leading">
             <h3>What is the chance an upcoming flight will have delays?</h3>
-            <ul>
-              <li><span style={{'color': '#2ecc71'}}>green</span> means the flight <b>is on time</b> -- no threaths for a possible delay are identified</li>
-              <li><span style={{'color': '#f1c40f'}}>yellow</span> means the flight <b>may be delayed</b> -- the software has picked the first signs of delay factors</li>
-              <li><span style={{'color': '#e74c3c'}}>red</span> means the flight <b>is likely to be delayed</b> -- the software has picked and verified multiple signs for delay factors</li>
-            </ul>
+            <p>We are scraping data from Twitter, thousands of news sources and weather data to predict the likelihood of flight delay or cancellation.</p>
           </div>
           <div className="field">
             <div className="control">
               <input
                 className="input"
                 type="text"
-                placeholder="Filter data"
+                placeholder="Search with airport code (AMS) or flight number"
                 onChange={(i) => {
                   this.setState({
                     ...this.state,
