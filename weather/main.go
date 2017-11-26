@@ -9,6 +9,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/xrash/smetrics"
 )
 
 type Symbol struct {
@@ -96,7 +98,7 @@ func getWeather(city string, wrecords [][]string) ([]string, string) {
 	risks := make([]string, 0)
 	mode := "Sunny"
 	for _, location := range wrecords {
-		if location[3] == city {
+		if location[3] == city || smetrics.JaroWinkler(location[3], city, 0.7, 4) > 0.93 {
 
 			resp, _ := http.Get(location[15])
 			data, _ := ioutil.ReadAll(resp.Body)
