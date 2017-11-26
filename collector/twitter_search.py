@@ -1,6 +1,6 @@
 #from TwitterSearch import *
 import tweepy
-import ujson as json
+import json #ujson as json
 import time
 
 def get_keywords():

@@ -22,10 +22,11 @@ def main():
     def save_labels():
         with open('tweet_labels.json', 'w') as f:
             json.dump(labels, f)
-
     # load tweets
     with open('tweet_results.json') as f:
         tweets = json.load(f)
+    import random
+    random.shuffle(tweets)
 
     # find tweets without labels
     for tweet in tweets:
