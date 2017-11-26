@@ -8,6 +8,7 @@ import (
 	"encoding/xml"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type Symbol struct {
@@ -37,9 +38,10 @@ type Result struct {
 }
 
 type AirportStatus struct {
-	Abbr     string
-	City     string
-	Statuses []string
+	Abbr  string
+	City  string
+	Mode  string
+	Risks []string
 }
 
 var airportsToSearch = []string{}
@@ -83,15 +85,16 @@ func main() {
 	wrecords, _ := wr.ReadAll()
 
 	for i, statuses := range Statuses {
-		Statuses[i].Statuses = getWeather(statuses.City, wrecords)
+		Statuses[i].Risks, Statuses[i].Mode = getWeather(statuses.City, wrecords)
 	}
 
 	output, _ := json.Marshal(Statuses)
 	ioutil.WriteFile("airports.json", output, 0666)
 }
 
-func getWeather(city string, wrecords [][]string) []string {
-	s := make([]string, 0)
+func getWeather(city string, wrecords [][]string) ([]string, string) {
+	risks := make([]string, 0)
+	mode := "Sunny"
 	for _, location := range wrecords {
 		if location[3] == city {
 
@@ -101,10 +104,33 @@ func getWeather(city string, wrecords [][]string) []string {
 			var result Result
 			xml.Unmarshal(data, &result)
 
+			var statusMap = make(map[string]int)
 			for _, status := range result.Forecast.Tabular.Timestamp {
-				s = append(s, status.Symbol.Status)
+				if strings.Contains(status.Symbol.Status, "heavy") {
+					risks = append(risks, status.Symbol.Status)
+				}
+				if strings.Contains(status.Symbol.Status, "Heavy") {
+					risks = append(risks, status.Symbol.Status)
+				}
+				if strings.Contains(status.Symbol.Status, "thunder") {
+					risks = append(risks, status.Symbol.Status)
+				}
+				if val, ok := statusMap[status.Symbol.Status]; ok {
+					statusMap[status.Symbol.Status] = val + 1
+					continue
+				}
+				statusMap[status.Symbol.Status] = 0
 			}
+
+			var high = 0
+			for k, v := range statusMap {
+				if v > high {
+					mode = k
+				}
+			}
+
 		}
 	}
-	return s
+
+	return risks, mode
 }

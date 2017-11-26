@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import flightSchedule from './flightSchedule.js'
+import flightWeather from './flightWeather.js'
+import _ from 'underscore';
+var flightWeatherMap = _.indexBy(flightWeather, 'Abbr');
 
 class ExpandedFlightRow extends Component {
   render() {
@@ -57,6 +60,17 @@ class ExpandedFlightRow extends Component {
           <div className='column'>
             <div className='box'>
               <p className='subtitle'>Stats</p>
+              <div className="media-content">
+                Weather in place of departure: { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Mode }
+                <br />
+                Weather risks in the place of departure ({ flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Risks.length }): { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_DEPARTURE_STATION].Risks }
+              </div>
+              <br /> <br />
+              <div className="media-content">
+                Weather in place of arrival { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Mode }
+                <br />
+                Weather risks in the place of arrival ({ flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Risks.length }): { flightWeatherMap[flightSchedule[this.props.flightIndex].PLAN_ARRIVAL_STATION].Risks }
+              </div>
             </div>
           </div>
         </div>
