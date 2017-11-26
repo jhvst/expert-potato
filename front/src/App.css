@@ -47,7 +47,9 @@ body {
 }
 
 .App-logo {
-  height: 1.5em;
+  height: 5.0em;
+  display: block;
+  margin: auto;
 }
 
 .table {
@@ -120,10 +122,10 @@ body {
 }
 
 .App-header {
-  padding: 20px;
-  padding-bottom: .5em;
-  align-self: left;
-  margin-left: 10%;
+  /*padding: 20px;*/
+  padding-bottom: 2em;
+  /*align-self: left;*/
+  /*margin-left: 10%;*/
 }
 
 .App-title {

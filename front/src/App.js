@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './finnair.svg';
+import logo from './illaksikotiin.png';
 import './App.css';
 import FlightRows from './FlightRows.js'
 import mockupRows from './mockupdata'
