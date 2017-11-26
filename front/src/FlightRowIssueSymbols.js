@@ -5,8 +5,8 @@ class FlightRowIssueSymbols extends Component {
     return (
       <div style={{'fontSize': '2em'}}>
       {
-        this.props.issues.map((issue) => {
-          return (issue.source == 'newsapi.org') ? <i className="fa fa-newspaper-o" aria-hidden="true"></i> : <i className="fa fa-twitter" aria-hidden="true"></i>
+        this.props.issues.map((issue, index) => {
+          return (issue.source === 'newsapi.org') ? <i key={index} className="fa fa-newspaper-o" aria-hidden="true"></i> : <i key={index} className="fa fa-twitter" aria-hidden="true"></i>
         })
       }
       {/*

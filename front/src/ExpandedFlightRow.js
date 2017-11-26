@@ -56,7 +56,7 @@ class ExpandedFlightRow extends Component {
                 {
                   flightSchedule[this.props.flightIndex].threat.map((singleRisk, i) => {
                     console.log(singleRisk)
-                    return singleRisk.source == 'twitter'
+                    return singleRisk.source === 'twitter'
                     ? <div key={i} className="box"><div className="subtitle">Tweet:</div> {singleRisk.twitter_message} </div>
                     : <div key={i} className="box"><div className="subtitle">News article:</div> {singleRisk.article_title} </div>
                   })
