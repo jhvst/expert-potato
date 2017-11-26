@@ -198,10 +198,9 @@ class MyListener(tweepy.StreamListener):
 def get_keywords():
 
 	# list of keyword permutations to search for
-	targets = ['heathrow', 'helsinki-vantaa', 'finnair', 'airport']
+	targets = [t[1] for t in get_destinations('finnair_airports.csv')]
 	problems = ['storm', 'rain', 'ice', 'strike', 'closed', 'fire', 'military',
 			'lakko', 'myrsky']
-	get_destinations('finnair_airports.csv')
 
 	from itertools import product
 	conditions = list(product(targets, problems))
