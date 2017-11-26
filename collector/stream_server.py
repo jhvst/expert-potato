@@ -34,10 +34,10 @@ def find_tweet_locations(status, destinations):
 		
 		for a, t, c in destinations:
 			if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
-				locations.clear()
 				locations.append((a, t, c))
 				break
-				
+		
+		for a, t, c in destinations:
 			if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
 				locations.append((a, t, c))
 			
