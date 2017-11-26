@@ -69,7 +69,7 @@ class App extends Component {
                 <div className="column">To</div>
                 <div className="column">Dep</div>
                 <div className="column">Arr</div>
-                <div className="column" style={{'flexGrow': 10}}>Issues</div>
+                <div className="column" style={{'flexGrow': 10}}>Source</div>
                 <div className="column">&nbsp;</div>
               </div>
               <FlightRows

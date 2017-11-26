@@ -32,11 +32,8 @@ class FlightRow extends Component {
             <div className="column">{this.props.info.PLAN_DEPARTURE_DATETIME_UTC}</div>
             <div className="column">{this.props.info.PLAN_ARRIVAL_DATETIME_UTC}</div>
             <div className="column" style={{'flexGrow': 10}}>
-              Magic data that still needs to be gathered
-{/*
-  <FlightRowIssueSymbols issues={this.props.info.issues}/>
-  */
-}
+            <FlightRowIssueSymbols issues={this.props.info.threat}/>
+
             </div>
             <div className="column"><i style={{'fontSize':'2em'}} className={ this.state.open ? "fa fa-chevron-up" : "fa fa-chevron-down"} aria-hidden="true"></i></div>
           </div>
