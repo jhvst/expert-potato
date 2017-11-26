@@ -42,7 +42,7 @@ class FlightRow extends Component {
               expanded={this.state.open}
               heightTransition=".2s"
             >
-              <ExpandedFlightRow flightIndex={this.props.flightIndex} open={this.state.open} status={this.props.status} />
+              <ExpandedFlightRow flightIndex={this.props.info.id} open={this.state.open} status={this.props.status} />
             </SmoothCollapse>
           </div>
         </div>
