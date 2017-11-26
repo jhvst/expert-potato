@@ -34,10 +34,10 @@ def find_tweet_locations(status, destinations):
 		
 		for a, t, c in destinations:
 			if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
+				locations.clear()
 				locations.append((a, t, c))
 				break
-		
-		for a, t, c in destinations:
+				
 			if text.find(c.lower()) >= 0 or user_location.find(c.lower()) >= 0:
 				locations.append((a, t, c))
 			
@@ -162,10 +162,12 @@ def text_to_category(text):
 
 g_destinations = get_destinations('finnair_airports.csv')
 def tweet_to_threat(status):
-	if status['full_text'].find('RT ') != -1:
-		return None
+	text = status['full_text'] if 'full_text' in status else status['text']
 
-	prob = text_to_prob(status['full_text'])
+	if text.find('RT ') != -1:
+			return None
+
+	prob = text_to_prob(text)
 	
 	locations = find_tweet_locations(status, g_destinations)
 
@@ -173,11 +175,11 @@ def tweet_to_threat(status):
 		print('prob', prob, 'below threshold')
 		return None
 	return {
-		probability: prob,
-		source: 'twitter',
-		airport: 'HEL',
-		twitter_message: status['full_text'],
-		category: text_to_category(status['full_text'])
+		'probability': prob,
+		'source': 'twitter',
+		'airport': 'HEL',
+		'twitter_message': text,
+		'category': text_to_category(text)
 	}
 
 class MyListener(tweepy.StreamListener):
@@ -219,13 +221,19 @@ def main():
 	listener.filter(track=get_keywords())
 
 if __name__ == '__main__':
-	main()
-	exit(0)
+	#main()
+	#exit(0)
+	threats = []
 	with open('tweet_results.json') as f:
 		tweets = json.load(f)
 		for i, tweet in enumerate(tweets):
 			#print(tweet.keys())
 			t = tweet_to_threat(tweet)
-			print(i)
+			print(i, 'num threats', len(threats))
 			if t:
-				print(t)
+				threats.append(t)
+				print(threats[-1])
+				if len(threats) > 10:
+					break
+	with open('threats.json', 'w') as f:
+		json.dump(threats, f)
