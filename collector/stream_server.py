@@ -33,18 +33,23 @@ def find_locations(status, destinations):
         else:       
             user_location = ''
             user_time_zone = ''
-            text = status['full_text'] if 'full_text' in status else status['text']
-            text = text.lower()
-            if status['user']['location'] is not None:
-                user_location = status['user']['location'].lower()
-            if status['user']['time_zone'] is not None:
-                user_time_zone = status['user']['time_zone'].lower()
-            if 'place' in status['user']:
-                if status['user']['place']['city'] is not None:
-                    user_location = user_location + ' ' + status['user']['place']['city']
-                if status['user']['place']['country'] is not None:
-                    user_location = user_location + ' ' + status['user']['place']['country']
-            
+            if 'title' in status:
+                text = (status['title'] or '') + ' - ' + (status['description'] or '')
+                text = text.lower()
+            else:
+                text = status['full_text'] if 'full_text' in status else status['text']
+                text = text.lower()
+                if status['user']['location'] is not None:
+                    user_location = status['user']['location'].lower()
+                if status['user']['time_zone'] is not None:
+                    user_time_zone = status['user']['time_zone'].lower()
+
+                if 'place' in status['user']:
+                    if status['user']['place']['city'] is not None:
+                        user_location = user_location + ' ' + status['user']['place']['city']
+                    if status['user']['place']['country'] is not None:
+                        user_location = user_location + ' ' + status['user']['place']['country']
+                
             for a, t, c in destinations:
                 if text.find(t.lower()) >= 0 or user_location.find(t.lower()) >= 0 or user_time_zone.find(t.lower()) >= 0:
                     locations.append(a)
@@ -56,14 +61,14 @@ def find_locations(status, destinations):
                     
             print(locations)
             print(text)
-            
+            '''
             print(status['user']['location'])
             print(status['user']['time_zone'])
             print(status['user']['geo_enabled'])
             print(status['geo'])
             print(status['coordinates'])
             print(status['place'])
-            print('')
+            print('')'''
             #print(status)
             #user = get_user(status[])
             #print('')
@@ -196,6 +201,27 @@ def tweet_to_threat(status):
         'created_at': tweet['created_at']
     }
 
+def article_to_threat(article):
+    text = (article['title'] or '') + ' - ' + (article['description'] or '')
+    prob = text_to_prob(text)
+    locations = find_locations(article, g_destinations)
+    if prob < 0.500142755657:
+        print('prob', prob, 'below threshold')
+        return None
+    return {
+        'probability': prob,
+        'source': 'newsapi.org',
+        'airport': locations,
+        'article_title': article['title'],
+        'article_description': article['description'],
+        'article_urlToImage': article['urlToImage'],
+        'article_url': article['url'],
+        'article_source': article['source'],
+        'article_author': article['author'],
+        'category': text_to_category(text),
+        'created_at': article['publishedAt']
+    }
+
 class MyListener(tweepy.StreamListener):
     def on_status(self, status):
         status = status._json
@@ -242,20 +268,33 @@ def main():
             pass  # or you could use 'continue'
 
 if __name__ == '__main__':
-    main()
-    exit(0)
+    #main()
+    #exit(0)
     threats = []
     def save_model():
         with open('threats.json', 'w') as f:
             json.dump(threats, f)
-    with open('tweet_results.json') as f:
-        tweets = json.load(f)
-        for i, tweet in enumerate(tweets):
-            #print(tweet.keys())
-            t = tweet_to_threat(tweet)
-            print(i, 'num threats', len(threats))
-            if t:
-                threats.append(t)
-                print(threats[-1])
-                save_model()
+    if True:
+        with open('tweet_results.json') as f:
+            tweets = json.load(f)
+            for i, tweet in enumerate(tweets):
+                #print(tweet.keys())
+                t = tweet_to_threat(tweet)
+                print(i, 'num threats', len(threats))
+                if t:
+                    threats.append(t)
+                    print(threats[-1])
+                    save_model()
+    if True:
+        with open('newsapi_results.json') as f:
+            news = json.load(f)
+            for i, article in enumerate(news):
+                t = article_to_threat(article)
+                print(i, 'num threats', len(threats))
+                if t:
+                    print(t)
+                    exit(0)
+                    threats.append(t)
+                    print(threats[-1])
+                    save_model()
     save_model()
