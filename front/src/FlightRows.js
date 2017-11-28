@@ -6,7 +6,7 @@ class FlightRows extends Component {
     return (
       this.props.data.map((item, i) => {
         return (
-          <FlightRow key={item.id} flightIndex={item.id} status="Operational" info={item} />
+          <FlightRow key={i} flightIndex={item.id} status="Operational" info={item} />
 
         )
       })

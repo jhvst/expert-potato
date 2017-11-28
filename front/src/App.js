@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './illaksikotiin.png';
 import './App.css';
 import FlightRows from './FlightRows.js'
-import mockupRows from './mockupdata'
 import flightSchedule from './flightSchedule.js'
 import Fuse from 'fuse.js'
 
